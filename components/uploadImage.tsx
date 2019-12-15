@@ -15,13 +15,21 @@ class UploadImage extends React.Component<any> {
   state = {
     image: null
   };
-
+  static navigationOptions = {
+    title: "Upload Image"
+  };
   render() {
     let { image } = this.state;
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center",backgroundColor: "#385659", }}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "center",
+          backgroundColor: "#385659"
+        }}>
         {image ? (
-            <Text style={styles.textStyle}>Loading...</Text>
+          <Text style={styles.textStyle}>Loading...</Text>
         ) : (
           <TouchableOpacity style={styles.button} onPress={this._pickImage}>
             <Text style={styles.text}>Upload an image</Text>
@@ -58,7 +66,6 @@ class UploadImage extends React.Component<any> {
     })
       .then(response => response.json()) // returns promise
       .then(responseJson => {
-        console.log(responseJson);
         let predictions = responseJson["predictions"];
         this.props.observableStore.setPredictionsResponse(predictions);
         this.props.navigation.navigate("PredicitonResult");
@@ -105,8 +112,6 @@ class UploadImage extends React.Component<any> {
       aspect: [4, 3],
       quality: 1
     });
-
-    console.log(result);
 
     if (!result.cancelled) {
       this.setState({ image: (result as any).uri });

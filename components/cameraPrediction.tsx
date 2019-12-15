@@ -118,11 +118,9 @@ class PredictFromCamera extends React.Component<any> {
     })
       .then(response => response.json()) // returns promise
       .then(responseJson => {
-        console.log(responseJson);
         let predictions = responseJson["predictions"];
         this.props.observableStore.setPredictionsResponse(predictions);
         this.props.navigation.navigate("PredicitonResult");
-        // this.setNewPrediction(predictions)
       });
   }
 
@@ -134,7 +132,6 @@ class PredictFromCamera extends React.Component<any> {
 
   render() {
     const { hasCameraPermission } = this.state;
-    console.log(this.state.loading);
     if (hasCameraPermission === null) {
       return (
         <View>
@@ -158,13 +155,12 @@ class PredictFromCamera extends React.Component<any> {
               zoom={this.state.zoom}
               whiteBalance={this.state.whiteBalance}
               ratio={this.state.ratio}
-              focusDepth={this.state.depth}
-            >
+              focusDepth={this.state.depth}>
               <View style={styles.cameraView}>
                 <View style={styles.buttonContainerView}>
                   <Button
                     style={styles.buttonContainerView}
-                    title="Take"
+                    title='Take'
                     onPress={() => {
                       this.takePicture();
                     }}
@@ -173,7 +169,7 @@ class PredictFromCamera extends React.Component<any> {
               </View>
             </Camera>
           ) : (
-            <View style={styles.container} >
+            <View style={styles.container}>
               <Text style={styles.textStyle}>Loading...</Text>
             </View>
           )}
@@ -218,7 +214,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#b6d2d0",
     alignItems: "center",
     justifyContent: "center"
-  },
+  }
 });
 
 export default inject("observableStore")(observer(PredictFromCamera));
