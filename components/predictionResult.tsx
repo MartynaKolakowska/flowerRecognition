@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { inject, observer } from "mobx-react";
-import CapitalizedText from "./capitalizedText";
+import CapitalizedText from "./utils/capitalizedText";
 
 const PredictionResult = props => {
   const [bestTag, setBestTag] = React.useState("");

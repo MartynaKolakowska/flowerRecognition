@@ -1,5 +1,5 @@
 import * as React from "react";
-import { firebase } from "../config";
+import { firebase } from "../../config";
 import {
   Button,
   View,

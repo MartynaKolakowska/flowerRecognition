@@ -7,12 +7,13 @@ import {
 import HomeScreen from "./components/Homepage";
 import PredictFromCamera from "./components/cameraPrediction";
 import UploadImage from "./components/uploadImage";
-import Login from "./components/login";
-import SignUp from "./components/signUp";
+import Login from "./components/register/login";
+import SignUp from "./components/register/signUp";
 import Loading from "./components/loading";
-import FlowersList from "./components/flowersList";
 import PredicitonResult from "./components/predictionResult";
 import AboutFlower from "./components/aboutFlower";
+import QuizIndex from "./components/quiz/quizIndex";
+import Quiz from "./components/quiz/quiz";
 
 const MyStackNavigator = createStackNavigator(
   {
@@ -20,11 +21,12 @@ const MyStackNavigator = createStackNavigator(
     CameraPrediction: { screen: PredictFromCamera },
     UploadImage: { screen: UploadImage },
     PredicitonResult: { screen: PredicitonResult },
-    FlowersList: { screen: FlowersList },
     Login: { screen: Login },
     SignUp: { screen: SignUp },
     Loading: { screen: Loading },
-    AboutFlower: { screen: AboutFlower }
+    AboutFlower: { screen: AboutFlower },
+    QuizIndex: { screen: QuizIndex },
+    Quiz: { screen: Quiz }
   },
   {
     initialRouteName: "Loading",

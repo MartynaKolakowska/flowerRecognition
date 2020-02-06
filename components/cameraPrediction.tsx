@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import * as ImageManipulator from "expo-image-manipulator";
 import { Camera } from "expo-camera";
-import { Button } from "./button";
+import { Button } from "./utils/button";
 import * as Permissions from "expo-permissions";
 import * as FileSystem from "expo-file-system";
 import { inject, observer } from "mobx-react";

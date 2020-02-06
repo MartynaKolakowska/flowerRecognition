@@ -3,11 +3,11 @@ import { createDrawerNavigator, createAppContainer } from "react-navigation";
 import HomeScreen from "./components/Homepage";
 import PredictFromCamera from "./components/cameraPrediction";
 import UploadImage from "./components/uploadImage";
-import Login from "./components/login";
-import SignUp from "./components/signUp";
+import Login from "./components/register/login";
+import SignUp from "./components/register/signUp";
 import Loading from "./components/loading";
-import FlowersList from "./components/flowersList";
 import StackNavigator from "./StackNavigator";
+import QuizIndex from "./components/quiz/quizIndex";
 
 const MyDrawerNavigation = createDrawerNavigator(
   {
@@ -29,10 +29,10 @@ const MyDrawerNavigation = createDrawerNavigator(
         title: "Upload a picture"
       }
     },
-    FlowersList: {
-      screen: FlowersList,
+    QuizIndex: {
+      screen: QuizIndex,
       navigationOptions: {
-        title: "Notifications"
+        title: "Quiz"
       }
     },
     Login: {
