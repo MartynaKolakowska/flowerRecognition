@@ -2,10 +2,13 @@ import React from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { inject, observer } from "mobx-react";
 import CapitalizedText from "./utils/capitalizedText";
+import i18n from "i18n-js";
+import "../translations";
 
 const PredictionResult = props => {
   const [bestTag, setBestTag] = React.useState("");
   const [maxProb, setMaxProb] = React.useState(0);
+  const [name, setName] = React.useState("");
   const setNewPrediction = predictions => {
     let maxProb = 0;
     let bestTag = "None";
@@ -18,6 +21,11 @@ const PredictionResult = props => {
     setBestTag(bestTag);
     setMaxProb(maxProb);
     props.observableStore.setTag(bestTag);
+    props.observableStore.store.flowers.map(item => {
+      if (item.id === bestTag) {
+        setName(item.name);
+      }
+    });
   };
 
   React.useEffect(() => {
@@ -27,11 +35,13 @@ const PredictionResult = props => {
   if (bestTag === "others") {
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>Are you sure that was a flower?</Text>
+        <Text style={styles.heading}>{i18n.t("notFlower")}</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => props.navigation.navigate("Home")}>
-          <Text style={[styles.text, { color: "#182d2e" }]}>Check again</Text>
+          <Text style={[styles.text, { color: "#182d2e" }]}>
+            {i18n.t("checkAgain")}
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -40,11 +50,13 @@ const PredictionResult = props => {
   if (bestTag === " otherFlowers") {
     return (
       <View style={styles.container}>
-        <Text style={styles.heading}>Sorry,AI can't recognize this flower</Text>
+        <Text style={styles.heading}>{i18n.t("notDatabaseFlower")}</Text>
         <TouchableOpacity
           style={styles.button}
           onPress={() => props.navigation.navigate("Home")}>
-          <Text style={[styles.text, { color: "#182d2e" }]}>Check again</Text>
+          <Text style={[styles.text, { color: "#182d2e" }]}>
+            {i18n.t("checkAgain")}
+          </Text>
         </TouchableOpacity>
       </View>
     );
@@ -56,21 +68,23 @@ const PredictionResult = props => {
         source={{ uri: props.observableStore.store.uploadedImage }}
         style={{ width: 250, height: 250, marginBottom: 20 }}
       />
-      <Text style={styles.text}>AI says:</Text>
-      <CapitalizedText style={styles.heading}>{bestTag}</CapitalizedText>
-      <Text style={styles.text}>Probability:</Text>
+      <Text style={styles.text}> {i18n.t("aiSays")}</Text>
+      <CapitalizedText style={styles.heading}>{name}</CapitalizedText>
+      <Text style={styles.text}> {i18n.t("probability")}</Text>
       <Text style={styles.heading}>{maxProb.toString()}</Text>
       <View>
         <TouchableOpacity
           style={styles.button}
           onPress={() => props.navigation.navigate("Home")}>
-          <Text style={[styles.text, { color: "#182d2e" }]}>Check again</Text>
+          <Text style={[styles.text, { color: "#182d2e" }]}>
+            {i18n.t("checkAgain")}
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => props.navigation.navigate("AboutFlower")}>
           <Text style={[styles.text, { color: "#182d2e" }]}>
-            More informations
+            {i18n.t("moreInformations")}
           </Text>
         </TouchableOpacity>
       </View>
@@ -78,7 +92,7 @@ const PredictionResult = props => {
   );
 };
 PredictionResult.navigationOptions = {
-  title: "Result"
+  title: i18n.t("result")
 };
 
 export default inject("observableStore")(observer(PredictionResult));

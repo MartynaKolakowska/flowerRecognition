@@ -5,6 +5,9 @@ import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
 import { inject, observer } from "mobx-react";
 import * as ImageManipulator from "expo-image-manipulator";
+import { BackHandler } from "react-native";
+import i18n from "i18n-js";
+import "../translations";
 
 const PREDICTION_KEY = "f2ceeca2e71740e3ab19389f4d9e6400";
 const PREDICTION_URL =
@@ -16,7 +19,7 @@ class UploadImage extends React.Component<any> {
     image: null
   };
   static navigationOptions = {
-    title: "Upload Image"
+    title: i18n.t("gallery")
   };
   render() {
     let { image } = this.state;
@@ -29,10 +32,10 @@ class UploadImage extends React.Component<any> {
           backgroundColor: "#385659"
         }}>
         {image ? (
-          <Text style={styles.textStyle}>Loading...</Text>
+          <Text style={styles.textStyle}>{i18n.t("waiting")}</Text>
         ) : (
           <TouchableOpacity style={styles.button} onPress={this._pickImage}>
-            <Text style={styles.text}>Upload an image</Text>
+            <Text style={styles.text}>{i18n.t("gallery")}</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -44,11 +47,34 @@ class UploadImage extends React.Component<any> {
     this.props.observableStore.setTest(12);
   }
 
+  constructor(props) {
+    super(props);
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
+  UNSAFE_componentWillMount() {
+    BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.handleBackButtonClick
+    );
+  }
+
+  UNSAFE_componentWillUnmount() {
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this.handleBackButtonClick
+    );
+  }
+
+  handleBackButtonClick() {
+    this.props.navigation.goBack(null);
+    return true;
+  }
+
   getPermissionAsync = async () => {
     if (Constants.platform.ios) {
       const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
       if (status !== "granted") {
-        alert("Sorry, we need camera roll permissions to make this work!");
+        alert(i18n.t("rollAlert"));
       }
     }
   };
@@ -69,7 +95,6 @@ class UploadImage extends React.Component<any> {
         let predictions = responseJson["predictions"];
         this.props.observableStore.setPredictionsResponse(predictions);
         this.props.navigation.navigate("PredicitonResult");
-        // this.setNewPrediction(predictions)
       });
   }
 

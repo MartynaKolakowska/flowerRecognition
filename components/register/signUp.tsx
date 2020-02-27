@@ -1,13 +1,8 @@
 import * as React from "react";
 import { firebase } from "../../config";
-import {
-  Button,
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  TextInput
-} from "react-native";
+import { Button, View, StyleSheet, Text, TextInput } from "react-native";
+import i18n from "i18n-js";
+import "../../translations";
 
 const SignUp = props => {
   const [email, setEmail] = React.useState("");
@@ -32,7 +27,7 @@ const SignUp = props => {
             .auth()
             .createUserWithEmailAndPassword(email, password);
         } else {
-          throw new Error("username is already taken");
+          throw new Error(i18n.t("takenUsername"));
         }
       })
       .then(createdUser => {
@@ -50,7 +45,7 @@ const SignUp = props => {
       <Text>Sign up</Text>
       {errorMessage && <Text style={{ color: "red" }}>{errorMessage}</Text>}
       <TextInput
-        placeholder='Username'
+        placeholder={i18n.t("username")}
         autoCapitalize='none'
         style={styles.textInput}
         onChangeText={username => setUsername(username)}
@@ -65,15 +60,15 @@ const SignUp = props => {
       />
       <TextInput
         secureTextEntry
-        placeholder='Password'
+        placeholder={i18n.t("password")}
         autoCapitalize='none'
         style={styles.textInput}
         onChangeText={password => setPassword(password)}
         value={password}
       />
-      <Button title='Sign Up' onPress={handleSignUp} />
+      <Button title={i18n.t("signUp")} onPress={handleSignUp} />
       <Button
-        title='Already have an account? Log in'
+        title={i18n.t("hasAccount")}
         onPress={() => props.navigation.navigate("Login")}
       />
     </View>

@@ -1,10 +1,12 @@
 import React from "react";
 import { Text, View, TouchableOpacity, Button, StyleSheet } from "react-native";
 import { Icon } from "native-base";
+import i18n from "i18n-js";
+import "../translations";
 
 export class HomeScreen extends React.Component<any> {
   static navigationOptions = ({ screenProps }) => ({
-    title: "Home",
+    title: i18n.t("home"),
     headerLeft: (
       <Icon
         onPress={() => screenProps.openDraw()}
@@ -21,13 +23,13 @@ export class HomeScreen extends React.Component<any> {
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.navigation.navigate("CameraPrediction")}>
-            <Text style={styles.text}>Take a picture</Text>
+            <Text style={styles.text}>{i18n.t("picture")}</Text>
           </TouchableOpacity>
-          <Text style={styles.textOR}>or</Text>
+          <Text style={styles.textOR}>{i18n.t("or")}</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.navigation.navigate("UploadImage")}>
-            <Text style={styles.text}>Upload an image</Text>
+            <Text style={styles.text}>{i18n.t("gallery")}</Text>
           </TouchableOpacity>
         </View>
       </View>

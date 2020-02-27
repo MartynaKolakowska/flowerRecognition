@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Dimensions, Image } from "react-native";
+import { View, StyleSheet, Dimensions, Image, Text } from "react-native";
 const screen = Dimensions.get("window");
 
 export const Alert = ({ correct, visible }) => {
@@ -11,7 +11,7 @@ export const Alert = ({ correct, visible }) => {
 
   const circleStyles = [styles.circle];
 
-  if (correct) {
+  if (correct === true) {
     (circleStyles as any).push(styles.circleCorrect);
   }
 

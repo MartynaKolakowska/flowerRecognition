@@ -12,8 +12,27 @@ import SignUp from "./components/register/signUp";
 import Loading from "./components/loading";
 import PredicitonResult from "./components/predictionResult";
 import AboutFlower from "./components/aboutFlower";
-import QuizIndex from "./components/quiz/quizIndex";
 import Quiz from "./components/quiz/quiz";
+import QuizResult from "./components/quiz/quizResult";
+import i18n from "i18n-js";
+import "./translations";
+
+export const QuizStackNavigator = createStackNavigator(
+  {
+    Quiz: {
+      screen: Quiz
+    },
+    QuizResult: { screen: QuizResult }
+  },
+  {
+    initialRouteName: "Quiz",
+    defaultNavigationOptions: {
+      title: i18n.t("quizResults"),
+      headerStyle: { height: 55, backgroundColor: "#7ba9a9" },
+      headerTitleStyle: { fontWeight: "bold", color: "#192e2f" }
+    }
+  }
+);
 
 const MyStackNavigator = createStackNavigator(
   {
@@ -25,8 +44,7 @@ const MyStackNavigator = createStackNavigator(
     SignUp: { screen: SignUp },
     Loading: { screen: Loading },
     AboutFlower: { screen: AboutFlower },
-    QuizIndex: { screen: QuizIndex },
-    Quiz: { screen: Quiz }
+    Quiz: QuizStackNavigator
   },
   {
     initialRouteName: "Loading",

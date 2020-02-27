@@ -3,10 +3,20 @@ import { firebase } from "../config";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
 import { db } from "../config";
 import { inject, observer } from "mobx-react";
+import i18n from "i18n-js";
+import "../translations";
+import * as Localization from "expo-localization";
+import { questionsPL, questionsEN } from "../store";
 
-let flowersRef = db.ref("/flowers");
+let flowersRef =
+  Localization.locale === "pl-PL" ? db.ref("/kwiaty") : db.ref("/flowers");
+
+const questions = Localization.locale === "pl-PL" ? questionsPL : questionsEN;
 
 class Loading extends React.Component<any> {
+  static navigationOptions = {
+    header: null
+  };
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       this.props.navigation.navigate(user ? "Home" : "SignUp");
@@ -18,11 +28,12 @@ class Loading extends React.Component<any> {
         this.props.observableStore.setFlowers(items);
       }
     });
+    this.props.observableStore.setQuestions(questions);
   }
   render() {
     return (
       <View style={styles.container}>
-        <Text>Loading</Text>
+        <Text style={styles.text}>{i18n.t("loading")}</Text>
         <ActivityIndicator size='large' />
       </View>
     );
@@ -32,7 +43,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "#385659"
+  },
+  text: {
+    color: "#e6e7e8",
+    fontWeight: "700",
+    fontSize: 24,
+    textAlign: "center"
   }
 });
 

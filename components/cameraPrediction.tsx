@@ -6,8 +6,10 @@ import { Button } from "./utils/button";
 import * as Permissions from "expo-permissions";
 import * as FileSystem from "expo-file-system";
 import { inject, observer } from "mobx-react";
+import { BackHandler } from "react-native";
+import i18n from "i18n-js";
+import "../translations";
 
-const DEFAULT_TAG_TEXT = "Hey, I'm your custom fashion police!";
 const PREDICTION_KEY = "f2ceeca2e71740e3ab19389f4d9e6400";
 const PREDICTION_URL =
   "https://westus2.api.cognitive.microsoft.com/customvision/v3.0/Prediction/9c3df89a-cf55-450b-bd25-1ff2f9de379e/classify/iterations/Iteration2/url";
@@ -15,7 +17,6 @@ const IMGUR_API_ID = "df12b8e0186a3e9";
 
 class PredictFromCamera extends React.Component<any> {
   state = {
-    tagText: DEFAULT_TAG_TEXT,
     flash: "off",
     zoom: 0,
     autoFocus: "on",
@@ -31,9 +32,34 @@ class PredictFromCamera extends React.Component<any> {
   };
   camera: any;
 
-  async componentWillMount() {
+  static navigationOptions = {
+    header: null
+  };
+
+  constructor(props) {
+    super(props);
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
+
+  UNSAFE_componentWillUnmount() {
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this.handleBackButtonClick
+    );
+  }
+
+  handleBackButtonClick() {
+    this.props.navigation.goBack(null);
+    return true;
+  }
+
+  async UNSAFE_componentWillMount() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA);
     this.setState({ hasCameraPermission: status === "granted" });
+    BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.handleBackButtonClick
+    );
   }
 
   async componentDidMount() {
@@ -124,12 +150,6 @@ class PredictFromCamera extends React.Component<any> {
       });
   }
 
-  resetPredictionText() {
-    this.setState({
-      tagText: DEFAULT_TAG_TEXT
-    });
-  }
-
   render() {
     const { hasCameraPermission } = this.state;
     if (hasCameraPermission === null) {
@@ -139,7 +159,7 @@ class PredictFromCamera extends React.Component<any> {
         </View>
       );
     } else if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
+      return <Text>{i18n.t("cameraAccess")}</Text>;
     } else {
       return (
         <View style={styles.cameraView}>
@@ -170,7 +190,7 @@ class PredictFromCamera extends React.Component<any> {
             </Camera>
           ) : (
             <View style={styles.container}>
-              <Text style={styles.textStyle}>Loading...</Text>
+              <Text style={styles.textStyle}>{i18n.t("waiting")}</Text>
             </View>
           )}
         </View>

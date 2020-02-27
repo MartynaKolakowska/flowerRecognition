@@ -8,10 +8,13 @@ import {
   ScrollView
 } from "react-native";
 import { inject, observer } from "mobx-react";
+import { BackHandler } from "react-native";
+import i18n from "i18n-js";
+import "../translations";
 
 class AboutFlower extends React.Component<any> {
   static navigationOptions = () => ({
-    title: "About flower"
+    title: i18n.t("aboutFlower")
   });
   state = {
     description: "",
@@ -21,10 +24,31 @@ class AboutFlower extends React.Component<any> {
     family: "",
     etymology: ""
   };
+  constructor(props) {
+    super(props);
+    this.handleBackButtonClick = this.handleBackButtonClick.bind(this);
+  }
+  UNSAFE_componentWillMount() {
+    BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.handleBackButtonClick
+    );
+  }
+
+  UNSAFE_componentWillUnmount() {
+    BackHandler.removeEventListener(
+      "hardwareBackPress",
+      this.handleBackButtonClick
+    );
+  }
+
+  handleBackButtonClick() {
+    this.props.navigation.goBack(null);
+    return true;
+  }
   componentDidMount() {
     this.props.observableStore.store.flowers.map(item => {
-      console.log(this.props.observableStore.store.bestTag);
-      if (item.name === this.props.observableStore.store.bestTag) {
+      if (item.id === this.props.observableStore.store.bestTag) {
         this.setState({
           description: item.description,
           name: item.name.toUpperCase(),
@@ -58,7 +82,7 @@ class AboutFlower extends React.Component<any> {
                 marginBottom: 8,
                 marginLeft: 14
               }}>
-              <Text style={styles.heading}>Name: </Text>
+              <Text style={styles.heading}>{i18n.t("name")} : </Text>
               <Text style={styles.color}>{this.state.name}</Text>
             </View>
             <View
@@ -68,7 +92,7 @@ class AboutFlower extends React.Component<any> {
                 marginBottom: 8,
                 marginLeft: 14
               }}>
-              <Text style={styles.heading}>Family: </Text>
+              <Text style={styles.heading}>{i18n.t("family")} : </Text>
               <Text style={styles.color}>{this.state.family}</Text>
             </View>
             <View
@@ -78,9 +102,17 @@ class AboutFlower extends React.Component<any> {
                 marginBottom: 8,
                 marginLeft: 14
               }}>
-              <Text style={styles.heading}>Genus: </Text>
+              <Text style={styles.heading}>{i18n.t("genus")} : </Text>
               <Text style={styles.color}>{this.state.genus}</Text>
             </View>
+          </View>
+          <View
+            style={{
+              display: "flex",
+              margin: 24,
+              alignItems: "stretch"
+            }}>
+            <Text style={styles.text}>{this.state.etymology}</Text>
           </View>
           <View
             style={{

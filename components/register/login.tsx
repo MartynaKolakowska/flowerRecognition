@@ -12,6 +12,8 @@ import {
   NavigationScreenComponent,
   NavigationScreenOptions
 } from "react-navigation";
+import i18n from "i18n-js";
+import "../../translations";
 
 const Login: NavigationScreenComponent = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
@@ -26,7 +28,7 @@ const Login: NavigationScreenComponent = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
-      <Text>Log in</Text>
+      <Text>{i18n.t("login")}</Text>
       {errorMessage && <Text style={{ color: "red" }}>{errorMessage}</Text>}
       <TextInput
         placeholder='Email'
@@ -37,15 +39,15 @@ const Login: NavigationScreenComponent = ({ navigation }) => {
       />
       <TextInput
         secureTextEntry
-        placeholder='Password'
+        placeholder={i18n.t("password")}
         autoCapitalize='none'
         style={styles.textInput}
         onChangeText={password => setPassword(password)}
         value={password}
       />
-      <Button title='Log in' onPress={handleLogin} />
+      <Button title={i18n.t("login")} onPress={handleLogin} />
       <Button
-        title="Don't have an account? Sign in"
+        title={i18n.t("noAccount")}
         onPress={() => navigation.navigate("SignUp")}
       />
     </View>
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
 });
 
 Login.navigationOptions = {
-  title: "Log in"
+  title: i18n.t("login")
 } as NavigationScreenOptions;
 
 export default Login;

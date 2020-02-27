@@ -7,38 +7,35 @@ import Login from "./components/register/login";
 import SignUp from "./components/register/signUp";
 import Loading from "./components/loading";
 import StackNavigator from "./StackNavigator";
-import QuizIndex from "./components/quiz/quizIndex";
+import { QuizStackNavigator } from "./StackNavigator";
+import i18n from "i18n-js";
+import "./translations";
 
 const MyDrawerNavigation = createDrawerNavigator(
   {
     Home: {
       screen: StackNavigator,
       navigationOptions: {
-        title: "Home"
+        title: i18n.t("home")
       }
     },
     CameraPrediction: {
       screen: PredictFromCamera,
       navigationOptions: {
-        title: "Take a picture"
+        title: i18n.t("picture")
       }
     },
     UploadImage: {
       screen: UploadImage,
       navigationOptions: {
-        title: "Upload a picture"
+        title: i18n.t("gallery")
       }
     },
-    QuizIndex: {
-      screen: QuizIndex,
-      navigationOptions: {
-        title: "Quiz"
-      }
-    },
+    Quiz: { screen: QuizStackNavigator },
     Login: {
       screen: Login,
       navigationOptions: {
-        title: "Login"
+        title: i18n.t("login")
       }
     }
   },
