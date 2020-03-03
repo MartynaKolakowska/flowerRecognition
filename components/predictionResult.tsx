@@ -47,7 +47,7 @@ const PredictionResult = props => {
     );
   }
 
-  if (bestTag === " otherFlowers") {
+  if (bestTag === "otherFlowers") {
     return (
       <View style={styles.container}>
         <Text style={styles.heading}>{i18n.t("notDatabaseFlower")}</Text>

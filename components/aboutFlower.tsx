@@ -19,7 +19,8 @@ class AboutFlower extends React.Component<any> {
   state = {
     description: "",
     name: "",
-    img: "",
+    img:
+      "https://images.vexels.com/media/users/3/136074/isolated/preview/e838ec7d8f858c17b3b98c8ad0d2497f---cone-de-flor-verde-by-vexels.png",
     genus: "",
     family: "",
     etymology: ""
@@ -62,6 +63,7 @@ class AboutFlower extends React.Component<any> {
   }
 
   render() {
+    console.log(this.state.img);
     return (
       <SafeAreaView style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollView}>

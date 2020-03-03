@@ -35,7 +35,7 @@ const MyDrawerNavigation = createDrawerNavigator(
     Login: {
       screen: Login,
       navigationOptions: {
-        title: i18n.t("login")
+        title: i18n.t("logout")
       }
     }
   },

@@ -26,6 +26,23 @@ const Login: NavigationScreenComponent = ({ navigation }) => {
       .then(() => navigation.navigate("Main"))
       .catch(error => setErrorMessage(error.message));
   };
+  React.useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        signOutUser();
+        console.log("e");
+      }
+    });
+  }, []);
+
+  const signOutUser = async () => {
+    try {
+      await firebase.auth().signOut();
+      navigation.navigate("Loading");
+    } catch (e) {
+      console.log(e);
+    }
+  };
   return (
     <View style={styles.container}>
       <Text>{i18n.t("login")}</Text>

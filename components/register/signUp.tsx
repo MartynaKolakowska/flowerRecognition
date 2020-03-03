@@ -1,5 +1,8 @@
 import * as React from "react";
 import { firebase } from "../../config";
+import "firebase/firebase-app";
+import "firebase/firebase-storage";
+import "firebase/firestore";
 import { Button, View, StyleSheet, Text, TextInput } from "react-native";
 import i18n from "i18n-js";
 import "../../translations";
@@ -9,6 +12,12 @@ const SignUp = props => {
   const [password, setPassword] = React.useState("");
   const [username, setUsername] = React.useState("");
   const [errorMessage, setErrorMessage] = React.useState(null);
+  firebase
+    .firestore()
+    .collection("collection")
+    .onSnapshot(querySnapshot => {
+      console.log(querySnapshot);
+    });
   const db = firebase.firestore();
   let usersRef = db.collection("users");
   const handleSignUp = () => {
